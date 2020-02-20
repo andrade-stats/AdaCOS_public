@@ -11,13 +11,14 @@ import commonVisualizationDefinitions
 matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype'] = 42
 
-# dataName = "pima_5foldCV"
+# *************************************************************************************************************************************
+# ************* specify dataset and experimental setting here ****************************************
+# *************************************************************************************************************************************
+# 
+dataName = "pima_5foldCV"
 # dataName = "breastcancer_5foldCV"
 # dataName = "pyhsioNetWithMissing_5foldCV"
-dataName = "heartDiseaseWithMissing_5foldCV"
-
-classificationModelName = "Combined"
-# classificationModelName = "logReg"
+# dataName = "heartDiseaseWithMissing_5foldCV"
 
 FEATURE_SELECTION_METHOD = "nonLinearL1"
 # FEATURE_SELECTION_METHOD = "greedy"
@@ -25,14 +26,14 @@ FEATURE_SELECTION_METHOD = "nonLinearL1"
 # COST_TYPE = "asymmetricCost"
 # COST_TYPE = "symmetricCost"
 COST_TYPE = "recall"
-targetRecall = 0.99
+targetRecall = 0.95
 
-# AdaptGBRT_classifier = "logReg"
+# *************************************************************************************************************************************
+# *************************************************************************************************************************************
+# *************************************************************************************************************************************
 
-# rm pima_5foldCV_AdaptGBRT*
-    # rm breastcancer_5foldCV_AdaptGBRT*
-    # rm heartDiseaseWithMissing_5foldCV_AdaptGBRT*
-    # rm pyhsioNetWithMissing_5foldCV_AdaptGBRT*
+
+classificationModelName = "Combined"
     
 allMethodNames = commonVisualizationDefinitions.getAllMethodNames(dataName, FEATURE_SELECTION_METHOD, classificationModelName, COST_TYPE, AdaptGBRT_classifier = "Combined")
 
@@ -199,11 +200,11 @@ elif COST_TYPE == "asymmetricCost":
     # plt.suptitle(constants.mapDataToLabel(dataName) + ", " + "false negative cost = " + str(int(constants.FN_TO_FP_RATIO)) + r" $\cdot$ " + "false positive costs")
     plt.suptitle(commonVisualizationDefinitions.mapDataToLabel(dataName) + ", " + "assymetric cost setting")
     plt.legend(handles=allMethodHandles)
-    # plt.show()
+    plt.show()
     
-    outputFilename = commonVisualizationDefinitions.OUTPUT_DIR + "result_" + dataName + "_" + COST_TYPE  + ".pdf"
-    plt.savefig(outputFilename)
-    print("wrote out file to " + outputFilename)
+    # outputFilename = commonVisualizationDefinitions.OUTPUT_DIR + "result_" + dataName + "_" + COST_TYPE  + ".pdf"
+    # plt.savefig(outputFilename)
+    # print("wrote out file to " + outputFilename)
 
 elif COST_TYPE == "recall":
     
@@ -402,11 +403,11 @@ elif COST_TYPE == "recall":
     
     plt.suptitle(commonVisualizationDefinitions.mapDataToLabel(dataName) + ", " + r"recall $\geq$ " + str(targetRecall))
     plt.legend(handles=allMethodHandles)
-    # plt.show()
+    plt.show()
     
-    outputFilename = commonVisualizationDefinitions.OUTPUT_DIR + "result_" + dataName + "_" + COST_TYPE  +str(int(targetRecall * 100)) + ".pdf"
-    plt.savefig(outputFilename)
-    print("wrote out file to " + outputFilename)
+    # outputFilename = commonVisualizationDefinitions.OUTPUT_DIR + "result_" + dataName + "_" + COST_TYPE  +str(int(targetRecall * 100)) + ".pdf"
+    # plt.savefig(outputFilename)
+    # print("wrote out file to " + outputFilename)
     
 else:
 

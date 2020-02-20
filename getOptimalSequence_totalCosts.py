@@ -14,13 +14,7 @@ import pickle
 from pathlib import Path
 
 
-# /opt/intel/intelpython3/bin/python getOptimalSequence_mixed.py breastcancer_5foldCV Combined asymmetricCost nonLinearL1
-# /opt/intel/intelpython3/bin/python getOptimalSequence_mixed.py pima_5foldCV Combined asymmetricCost
-# /opt/intel/intelpython3/bin/python getOptimalSequence_mixed.py heartDiseaseWithMissing_5foldCV Combined asymmetricCost
-# /opt/intel/intelpython3/bin/python getOptimalSequence_mixed.py pyhsioNetWithMissing_5foldCV Combined asymmetricCost greedy
-
-# /opt/intel/intelpython3/bin/python getOptimalSequence_mixed.py pima_5foldCV Combined symmetricCost greedy
-# /opt/intel/intelpython3/bin/python getOptimalSequence_mixed.py pima_5foldCV Combined symmetricCost nonLinearL1
+# /opt/intel/intelpython3/bin/python getOptimalSequence_totalCosts.py pima_5foldCV asymmetricCost nonLinearL1
 
 dataName = sys.argv[1]
 
@@ -33,19 +27,21 @@ onlyLookingOneStepAhead = False
 NR_OF_USED_CPUS = None
 NUMBER_OF_SAMPLES = None
     
-classificationModelName = sys.argv[2]
+classificationModelName = "Combined" # sys.argv[2]
 assert(classificationModelName == "logReg" or classificationModelName == "GAM" or classificationModelName == "Combined")
 
-COST_TYPE = sys.argv[3] 
+COST_TYPE = sys.argv[2] 
 
 
 densityRegressionModelName = "BR"
-# densityRegressionModelName = "OrdinaryRegression"
 
 assert(dataName.endswith("5foldCV"))
 
-assert(sys.argv[4] == "l1" or sys.argv[4] == "greedy" or sys.argv[4] == "nonLinearL1"  or sys.argv[4] == "mixed")
-FEATURE_SELECTION_METHOD = sys.argv[4]
+
+# greedy = forward-selection method
+# nonLinearL1 = group lasso method
+assert(sys.argv[3] == "greedy" or sys.argv[3] == "nonLinearL1")
+FEATURE_SELECTION_METHOD = sys.argv[3]
 
 
 if COST_TYPE == "symmetricCost":
@@ -156,7 +152,8 @@ for variationName in allVariations:
         testOperationCostsAllFolds_exactRecall = numpy.zeros(constants.NUMBER_OF_FOLDS)
         
         
-        if dataName != "pyhsioNetWithMissing_5foldCV":
+        if FEATURE_SELECTION_METHOD == "greedy" or FEATURE_SELECTION_METHOD == "mixed":
+            assert(dataName != "pyhsioNetWithMissing_5foldCV")
             trainedModelsFilenameGreedy = dataName + "_" + classificationModelName + "_" + COST_TYPE + "_" + str(falsePositiveCost) + "_greedy"
     
             with open(constants.MODEL_FOLDERNAME + trainedModelsFilenameGreedy + "_models", "rb") as f:

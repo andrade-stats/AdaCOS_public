@@ -19,12 +19,12 @@ import pickle
 
 dataName = sys.argv[1]
 
-classificationModelName = sys.argv[2]
+classificationModelName = "Combined" # sys.argv[2]
 assert(classificationModelName == "logReg" or classificationModelName == "GAM" or classificationModelName == "Combined")
 
 # only used to compare with the results from previous work on Diabetes data
-assert(sys.argv[3] == "asymmetricCost" or sys.argv[3] == "symmetricCost")
-USE_SYMMETRIC_MISCLASSIFICATION_COSTS = sys.argv[3] == "symmetricCost"
+assert(sys.argv[2] == "asymmetricCost" or sys.argv[2] == "symmetricCost")
+USE_SYMMETRIC_MISCLASSIFICATION_COSTS = sys.argv[2] == "symmetricCost"
 
 
 

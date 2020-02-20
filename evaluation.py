@@ -5,7 +5,7 @@ import sklearn.metrics
 import sklearn.linear_model
 import sklearn.svm
 import scipy.io
-import experimentSetting
+import experimentSettingBaselines
 import experimentHelper
 import preprocessing
 import sklearn.gaussian_process
@@ -148,7 +148,7 @@ def getBestParametersForGreedyMiser_helper(dataName, definedFeatureCosts, testFo
     
     for trainFoldId in range(NUMBER_OF_TRAIN_EVAL_FOLDS):
         dataNameFull = dataName + "_" + str(trainFoldId) + "trainEvalSplitNr_" + str(testFoldId)
-        allResultsInMatlab = scipy.io.loadmat(experimentSetting.MATLAB_FOLDER_RESULTS_GREEDY_MISER + dataNameFull + "_allResults")
+        allResultsInMatlab = scipy.io.loadmat(experimentSettingBaselines.MATLAB_FOLDER_RESULTS_GREEDY_MISER + dataNameFull + "_allResults")
         allAccTest_thisTrainFold = allResultsInMatlab['allAccTest']
         allAvgFeatureCost_thisTrainFold = allResultsInMatlab['allTotalCost']
         allScores_thisTrainFold = allResultsInMatlab['allScores']
@@ -158,7 +158,7 @@ def getBestParametersForGreedyMiser_helper(dataName, definedFeatureCosts, testFo
         assert(allAccTest_thisTrainFold.shape[0] == GREEDY_MISER_NUMBER_OF_LAMBDAS and allAccTest_thisTrainFold.shape[1] == GREEDY_MISER_NUMBER_OF_TREES)
         assert(len(allAccTest_thisTrainFold.shape) == 2 and len(allAvgFeatureCost_thisTrainFold.shape) == 2)
         
-        dataInMatlab = scipy.io.loadmat(experimentSetting.MATLAB_FOLDER_DATA + dataNameFull)
+        dataInMatlab = scipy.io.loadmat(experimentSettingBaselines.MATLAB_FOLDER_DATA + dataNameFull)
         trueLabels = numpy.asarray(dataInMatlab["yte"].transpose()[0], dtype = numpy.int) # labels are in {-1, 1}
         trueLabels = experimentHelper.getLabelsStartingAtZero(trueLabels)
         
@@ -282,15 +282,15 @@ def getAverageTotalCosts_forADAPTGBRT(avgFeatureCost, avgFalsePositives, avgFals
 def getBestAverage10TrainFoldTotalCostsResultAsymmetricForADAPTGBRT(classificationModelName, dataName, testFoldId, falsePositiveCost, falseNegativeCost):
     
     allResults = None
-    for trainFoldId in range(constants.NUMBER_OF_TRAIN_EVAL_FOLDS_MATLAB_METHODS):
+    for trainFoldId in range(experimentSettingBaselines.NUMBER_OF_TRAIN_EVAL_FOLDS_MATLAB_METHODS):
         dataNameFull = dataName + "_" + str(trainFoldId) + "trainEvalSplitNr_" + str(testFoldId) + "_" + classificationModelName
-        allResultsOneTrainFold = numpy.loadtxt(experimentSetting.MATLAB_FOLDER_RESULTS_ADAPT_GBRT + dataNameFull + "_" + "allResults.csv", delimiter = ",")
+        allResultsOneTrainFold = numpy.loadtxt(experimentSettingBaselines.MATLAB_FOLDER_RESULTS_ADAPT_GBRT + dataNameFull + "_" + "allResults.csv", delimiter = ",")
         if allResults is None:
             allResults = numpy.zeros_like(allResultsOneTrainFold)
         allResults += allResultsOneTrainFold
      
     
-    allResults = allResults / float(constants.NUMBER_OF_TRAIN_EVAL_FOLDS_MATLAB_METHODS)
+    allResults = allResults / float(experimentSettingBaselines.NUMBER_OF_TRAIN_EVAL_FOLDS_MATLAB_METHODS)
     
     print("allResults = ", allResults)
     print("best accuracy result = ", allResults[numpy.argmax(allResults[0,:])])
@@ -309,15 +309,15 @@ def getBestAverage10TrainFoldTotalCostsResultSymmetricForADAPTGBRT(classificatio
      
     
     allResults = None
-    for trainFoldId in range(constants.NUMBER_OF_TRAIN_EVAL_FOLDS_MATLAB_METHODS): 
+    for trainFoldId in range(experimentSettingBaselines.NUMBER_OF_TRAIN_EVAL_FOLDS_MATLAB_METHODS): 
         dataNameFull = dataName + "_" + str(trainFoldId) + "trainEvalSplitNr_" + str(testFoldId) + "_" + classificationModelName
-        allResultsOneTrainFold = numpy.loadtxt(experimentSetting.MATLAB_FOLDER_RESULTS_ADAPT_GBRT + dataNameFull + "_" + "allResults.csv", delimiter = ",")
+        allResultsOneTrainFold = numpy.loadtxt(experimentSettingBaselines.MATLAB_FOLDER_RESULTS_ADAPT_GBRT + dataNameFull + "_" + "allResults.csv", delimiter = ",")
         if allResults is None:
             allResults = numpy.zeros_like(allResultsOneTrainFold)
         allResults += allResultsOneTrainFold
     
      
-    allResults = allResults / float(constants.NUMBER_OF_TRAIN_EVAL_FOLDS_MATLAB_METHODS)
+    allResults = allResults / float(experimentSettingBaselines.NUMBER_OF_TRAIN_EVAL_FOLDS_MATLAB_METHODS)
     
     print("allResults = ", allResults)
     print("best accuracy result = ", allResults[numpy.argmax(allResults[0,:])])
@@ -372,14 +372,14 @@ def getBestValidTotalCostsResultSymmetric(allResults, symmetricMisclassification
 
 
 def saveBestHyperparameterStringForADAPTGBRT(bestValidId, classificationModelName, dataName, foldId, falsePositiveCost, COST_TYPE):
-    filename = experimentSetting.PARAMETER_FOLDER_ADAPT_GBRT + "standardParamRange"
+    filename = experimentSettingBaselines.PARAMETER_FOLDER_ADAPT_GBRT + "standardParamRange"
     with open(filename, "r") as f:
         for lineId, line in enumerate(f):
             if lineId == bestValidId:
                 bestHyperparametersStr = line.strip()
                 break
      
-    filename = experimentSetting.PARAMETER_FOLDER_ADAPT_GBRT + "standardParamRange_" + dataName + "_" + str(int(falsePositiveCost)) + '_forFinalTrainingAndTesting_' + str(foldId) + "_" + COST_TYPE + "_" + classificationModelName
+    filename = experimentSettingBaselines.PARAMETER_FOLDER_ADAPT_GBRT + "standardParamRange_" + dataName + "_" + str(int(falsePositiveCost)) + '_forFinalTrainingAndTesting_' + str(foldId) + "_" + COST_TYPE + "_" + classificationModelName
      
     print("bestHyperparametersStr = ", bestHyperparametersStr)
     
