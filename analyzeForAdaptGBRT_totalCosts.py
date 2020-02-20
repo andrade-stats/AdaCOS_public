@@ -1,5 +1,5 @@
 import numpy
-import experimentSetting
+import experimentSettingBaselines
 import experimentHelper
 import evaluation
 import os
@@ -53,7 +53,7 @@ for falsePositiveCost in ALL_FALSE_POSITIVE_COSTS:
         evaluation.saveBestHyperparameterStringForADAPTGBRT(bestIdOnValid, classificationModelName, dataName, testFoldId, falsePositiveCost, COST_TYPE)
          
      
-    finalResultsFilename = experimentSetting.MATLAB_FOLDER_RESULTS_ADAPT_GBRT + dataName + "_" + str(int(falsePositiveCost)) + '_forFinalTrainingAndTesting_' + str(constants.NUMBER_OF_FOLDS-1) + "_" + COST_TYPE + "_" + classificationModelName + "_allResults.csv"
+    finalResultsFilename = experimentSettingBaselines.MATLAB_FOLDER_RESULTS_ADAPT_GBRT + dataName + "_" + str(int(falsePositiveCost)) + '_forFinalTrainingAndTesting_' + str(constants.NUMBER_OF_FOLDS-1) + "_" + COST_TYPE + "_" + classificationModelName + "_allResults.csv"
     if os.path.isfile(finalResultsFilename):
         
         print("*************************** AFTER FINAL TRAINING *******************************************")
@@ -74,7 +74,7 @@ for falsePositiveCost in ALL_FALSE_POSITIVE_COSTS:
         
         for testFoldId in range(constants.NUMBER_OF_FOLDS):
         
-            finalResultsFilename = experimentSetting.MATLAB_FOLDER_RESULTS_ADAPT_GBRT + dataName + "_" + str(int(falsePositiveCost)) + '_forFinalTrainingAndTesting_' + str(testFoldId) + "_" + COST_TYPE + "_" + classificationModelName + "_allResults.csv" 
+            finalResultsFilename = experimentSettingBaselines.MATLAB_FOLDER_RESULTS_ADAPT_GBRT + dataName + "_" + str(int(falsePositiveCost)) + '_forFinalTrainingAndTesting_' + str(testFoldId) + "_" + COST_TYPE + "_" + classificationModelName + "_allResults.csv" 
             allResults = numpy.loadtxt(finalResultsFilename, delimiter = ",")
             assert(len(allResults.shape) == 1 and allResults.shape[0] == 4)
             

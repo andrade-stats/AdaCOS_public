@@ -113,7 +113,7 @@ for dataNameId in range(len(allDataNames)):
             allMethodHandles.append(methodHandle)
             axes_top[3].legend(handles=allMethodHandles, loc='lower center', bbox_to_anchor=(6, -0.3))
     
-        axes_top[3].set_title(constants.mapDataToLabel(dataName))
+        axes_top[3].set_title(commonVisualizationDefinitions.mapDataToLabel(dataName))
         
         
 print("---------------------------------")

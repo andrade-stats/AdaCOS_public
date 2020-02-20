@@ -12,17 +12,15 @@ import constants
 import pickle
 
 
-# /data/intelpython3/bin/python precalculateAllNonLinearL1FeatureSets.py pima_5foldCV Combined 
-# /opt/intel/intelpython3/bin/python precalculateAllNonLinearL1FeatureSets.py breastcancer_5foldCV Combined
-# /opt/intel/intelpython3/bin/python precalculateAllNonLinearL1FeatureSets.py heartDiseaseWithMissing_5foldCV Combined 
-
-# currently running on Manto54:
-# /opt/intel/intelpython3/bin/python precalculateAllNonLinearL1FeatureSets.py pyhsioNetWithMissing_5foldCV Combined
+# /opt/intel/intelpython3/bin/python precalculateAllNonLinearL1FeatureSets.py pima_5foldCV  
+# /opt/intel/intelpython3/bin/python precalculateAllNonLinearL1FeatureSets.py breastcancer_5foldCV 
+# /opt/intel/intelpython3/bin/python precalculateAllNonLinearL1FeatureSets.py heartDiseaseWithMissing_5foldCV  
+# /opt/intel/intelpython3/bin/python precalculateAllNonLinearL1FeatureSets.py pyhsioNetWithMissing_5foldCV 
 
 
 dataName = sys.argv[1]
 
-classificationModelName = sys.argv[2]
+classificationModelName = "Combined" # sys.argv[2]
 assert(classificationModelName == "logReg" or classificationModelName == "GAM" or classificationModelName == "Combined")
 
 
@@ -33,7 +31,6 @@ assert(classificationModelName == "logReg" or classificationModelName == "GAM" o
 definedFeatureCosts = realdata.getFeaturesCosts(dataName)
 
                     
-MODEL_FOLDERNAME =  "/export/home/s-andrade/newStart/eclipseWorkspaceDynamic/DynamicCovariateSelection/models/"
 trainedModelsFilename = dataName + "_" + classificationModelName + "_nonLinearL1"
 
 allPredictionModels_allFolds = []
@@ -52,11 +49,11 @@ for foldId in range(constants.NUMBER_OF_FOLDS):
     allTrainingTrueProbsAllModels_allFolds.append(allTrainingTrueProbsAllModels)
     allFeatureArraysInOrder_allFolds.append(allFeatureArraysInOrder)
 
-with open(MODEL_FOLDERNAME + trainedModelsFilename + "_models", "wb") as f:
+with open(constants.MODEL_FOLDERNAME + trainedModelsFilename + "_models", "wb") as f:
     pickle.dump(allPredictionModels_allFolds,f)
-with open(MODEL_FOLDERNAME + trainedModelsFilename + "_probs", "wb") as f:
+with open(constants.MODEL_FOLDERNAME + trainedModelsFilename + "_probs", "wb") as f:
     pickle.dump(allTrainingTrueProbsAllModels_allFolds,f)
-with open(MODEL_FOLDERNAME + trainedModelsFilename + "_features", "wb") as f:
+with open(constants.MODEL_FOLDERNAME + trainedModelsFilename + "_features", "wb") as f:
     pickle.dump(allFeatureArraysInOrder_allFolds,f)       
 
 

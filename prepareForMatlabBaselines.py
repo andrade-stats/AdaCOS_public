@@ -5,7 +5,7 @@ import sklearn.metrics
 import sklearn.model_selection
 import evaluation
 import constants
-import experimentSetting
+import experimentSettingBaselines
 import sys
 
 # /export/home/s-andrade/newStart/eclipseWorkspaceDynamic/DynamicCovariateSelection
@@ -46,7 +46,7 @@ for foldId in range(constants.NUMBER_OF_FOLDS):
        
     trainAndEvalData, trainAndEvalLabels, unlabeledData, testData, testLabels = realdata.loadSubset(dataName, None, foldId, constants.IMPUTATION_METHOD)
      
-    NR_SPLITS = constants.NUMBER_OF_TRAIN_EVAL_FOLDS_MATLAB_METHODS * 2
+    NR_SPLITS = experimentSettingBaselines.NUMBER_OF_TRAIN_EVAL_FOLDS_MATLAB_METHODS * 2
     assert(NR_SPLITS == 10)
     kFoldMaster = sklearn.model_selection.StratifiedKFold(n_splits = NR_SPLITS,  shuffle=True, random_state=4324232)
     for trainEvalSplitNr, (train_index, eval_index) in enumerate(kFoldMaster.split(trainAndEvalData, trainAndEvalLabels)):
@@ -55,11 +55,11 @@ for foldId in range(constants.NUMBER_OF_FOLDS):
         evalData = trainAndEvalData[eval_index]
         evalLabels = trainAndEvalLabels[eval_index]
 
-        outputFilename = experimentSetting.MATLAB_FOLDER_DATA + dataName + "_" + str(trainEvalSplitNr) + "trainEvalSplitNr_" + str(foldId)
+        outputFilename = experimentSettingBaselines.MATLAB_FOLDER_DATA + dataName + "_" + str(trainEvalSplitNr) + "trainEvalSplitNr_" + str(foldId)
         evaluation.prepareForMatlab(trainData, trainLabels, evalData, evalLabels, featureCosts, outputFilename, classificationModelName)
     
     
-    outputFilename = experimentSetting.MATLAB_FOLDER_DATA + dataName + "_forFinalTrainingAndTesting_" + str(foldId)
+    outputFilename = experimentSettingBaselines.MATLAB_FOLDER_DATA + dataName + "_forFinalTrainingAndTesting_" + str(foldId)
     evaluation.prepareForMatlab(trainAndEvalData, trainAndEvalLabels, testData, testLabels, featureCosts, outputFilename, classificationModelName)
     
 

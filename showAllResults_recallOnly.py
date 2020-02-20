@@ -64,7 +64,7 @@ for dataNameId in range(len(allDataNames)):
         print("method = ", allMethodNames[methodNameId])
         
         allTotalCosts, allFeatureCosts, allMisClassificationCosts, allAccuracies, allAUC, allRecall, allFDR, allOperationCosts, allRecall_atExactRecall, allFDR_atExactRecall, allOperationCosts_atExactRecall = experimentHelper.ResultsRecorder.readResults(dataName + "_" + allMethodNames[methodNameId] + "_" + str(targetRecall) + COST_TYPE)
-        methodHandle = ax_middle.errorbar(x = x_ids, y = allRecall[:,1], yerr = allRecall[:,2], color = COLOR_CYCLE[methodNameId], linestyle=commonVisualizationDefinitions.ALL_LINESTYLES[methodNameId], label = constants.mapMethodToLabel(allMethodNames[methodNameId]), marker = commonVisualizationDefinitions.ALL_MARKERS[methodNameId])
+        methodHandle = ax_middle.errorbar(x = x_ids, y = allRecall[:,1], yerr = allRecall[:,2], color = COLOR_CYCLE[methodNameId], linestyle=commonVisualizationDefinitions.ALL_LINESTYLES[methodNameId], label = commonVisualizationDefinitions.mapMethodToLabel(allMethodNames[methodNameId]), marker = commonVisualizationDefinitions.ALL_MARKERS[methodNameId])
         
         print("SET COSTS \t TOTAL COSTS \t OPERATION COSTS \t FDR \t RECALL \t FEATURE COSTS")
         
@@ -111,7 +111,7 @@ for dataNameId in range(len(allDataNames)):
     if dataNameId == 3:
         ax_middle.legend(handles=allMethodHandles, loc='lower center', bbox_to_anchor=(1, -0.8)) #  bbox_to_anchor=(6, -0.3))
      
-    ax_middle.set_title(constants.mapDataToLabel(dataName))
+    ax_middle.set_title(commonVisualizationDefinitions.mapDataToLabel(dataName))
         
         
 print("---------------------------------")

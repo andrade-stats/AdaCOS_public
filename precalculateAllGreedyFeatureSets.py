@@ -38,7 +38,6 @@ if USE_SYMMETRIC_MISCLASSIFICATION_COSTS:
     costTypeString = "symmetricCost"
 else:
     ALL_FALSE_POSITIVE_COSTS = constants.allFalsePositiveCosts
-    FN_TO_FP_RATIO = 10.0
     costTypeString = "asymmetricCost"
     
 
@@ -58,7 +57,7 @@ for falsePositiveCost in ALL_FALSE_POSITIVE_COSTS:
         misclassificationCosts[0, 0] = correctClassificationCost
         misclassificationCosts[1, 1] = correctClassificationCost
     else:
-        falseNegativeCost = falsePositiveCost * FN_TO_FP_RATIO
+        falseNegativeCost = falsePositiveCost * constants.FN_TO_FP_RATIO
         misclassificationCosts = numpy.zeros((2, 2))
         misclassificationCosts[0, 1] = falsePositiveCost 
         misclassificationCosts[1, 0] = falseNegativeCost 

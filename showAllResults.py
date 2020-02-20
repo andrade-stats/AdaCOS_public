@@ -49,7 +49,7 @@ if COST_TYPE == "symmetricCost":
         result400Str = str(round(allTotalCosts[rowIdFor400,1],2)) + " (" + str(round(allTotalCosts[rowIdFor400,2],2)) +  ")"
         result800Str = str(round(allTotalCosts[rowIdFor800,1],2)) + " (" + str(round(allTotalCosts[rowIdFor800,2],2)) +  ")"
         
-        print("\\bf " + constants.mapMethodToLabel(allMethodNames[methodNameId]) + " & " + result400Str + " & " + result800Str + " \\\\")
+        print("\\bf " + commonVisualizationDefinitions.mapMethodToLabel(allMethodNames[methodNameId]) + " & " + result400Str + " & " + result800Str + " \\\\")
         # print("*****************")
         # print("method = ", allMethodNames[methodNameId])
         # print(str(allOperationCosts[rowIdFor400,0]) + " \t"  + result400Str) 
@@ -89,13 +89,13 @@ elif COST_TYPE == "asymmetricCost":
         
         # color = [methodNameId]
         allWeigthedAccs = evaluation.getAllWeightedAccuracyies(trueLabelRatio, allMisClassificationCosts[:,1])
-        methodHandle = ax_middle.errorbar(x = x_ids, y = allWeigthedAccs, linestyle=commonVisualizationDefinitions.ALL_LINESTYLES[methodNameId], color = COLOR_CYCLE[methodNameId], label = constants.mapMethodToLabel(allMethodNames[methodNameId]), marker = commonVisualizationDefinitions.ALL_MARKERS[methodNameId])
+        methodHandle = ax_middle.errorbar(x = x_ids, y = allWeigthedAccs, linestyle=commonVisualizationDefinitions.ALL_LINESTYLES[methodNameId], color = COLOR_CYCLE[methodNameId], label = commonVisualizationDefinitions.mapMethodToLabel(allMethodNames[methodNameId]), marker = commonVisualizationDefinitions.ALL_MARKERS[methodNameId])
         ax_middle.xaxis.set_ticks(x_ids) 
         ax_middle.xaxis.set_ticklabels(numpy.asarray(constants.allFalsePositiveCosts, dtype = numpy.int)) 
         allMethodHandles.append(methodHandle)
         
         if not (dataName == "heartDiseaseWithMissing_5foldCV" and allMethodNames[methodNameId].startswith("getOptimalSequence_fullModel")):
-            ax_down.errorbar(x = x_ids, y = allFeatureCosts[:,1], linestyle=commonVisualizationDefinitions.ALL_LINESTYLES[methodNameId], color = COLOR_CYCLE[methodNameId], label = constants.mapMethodToLabel(allMethodNames[methodNameId]), marker = commonVisualizationDefinitions.ALL_MARKERS[methodNameId])
+            ax_down.errorbar(x = x_ids, y = allFeatureCosts[:,1], linestyle=commonVisualizationDefinitions.ALL_LINESTYLES[methodNameId], color = COLOR_CYCLE[methodNameId], label = commonVisualizationDefinitions.mapMethodToLabel(allMethodNames[methodNameId]), marker = commonVisualizationDefinitions.ALL_MARKERS[methodNameId])
             ax_down.xaxis.set_ticks(x_ids) 
             ax_down.xaxis.set_ticklabels(numpy.asarray(constants.allFalsePositiveCosts, dtype = numpy.int))
         
@@ -109,7 +109,7 @@ elif COST_TYPE == "asymmetricCost":
         for rowId in range(len(constants.allFalsePositiveCosts)):
             print("[" + str(allOperationCosts[rowId,0]) + "] \t"  + str(round(allTotalCosts[rowId,1],2)) + " (" + str(round(allTotalCosts[rowId,2],2)) +  ")  \t"  +  str(round(allOperationCosts[rowId,1],2)) + " (" + str(round(allOperationCosts[rowId,2],2)) +  ")"  + "\t" + str(round(allFDR[rowId,1],2)) + " (" + str(round(allFDR[rowId,2],2)) + ")" +  "\t" + str(round(allRecall[rowId,1],2)) + " (" + str(round(allRecall[rowId,2],2)) + ")" + "\t" + str(round(allFeatureCosts[rowId,1],2)) + " (" + str(round(allFeatureCosts[rowId,2],2)) +  ")")
 
-            axes_top[rowId].bar([xMiddlePosition + methodNameId * barWidth], [allTotalCosts[rowId,1]], yerr = [allTotalCosts[rowId,2]], width=barWidth, color = COLOR_CYCLE[methodNameId], label=constants.mapMethodToLabel(allMethodNames[methodNameId]), alpha=transparency, ecolor='black', capsize=2)
+            axes_top[rowId].bar([xMiddlePosition + methodNameId * barWidth], [allTotalCosts[rowId,1]], yerr = [allTotalCosts[rowId,2]], width=barWidth, color = COLOR_CYCLE[methodNameId], label=commonVisualizationDefinitions.mapMethodToLabel(allMethodNames[methodNameId]), alpha=transparency, ecolor='black', capsize=2)
             axes_top[rowId].set_xticks([xMiddlePosition + (len(allMethodNames) * barWidth / 2.0) - (barWidth / 2.0)])
             axes_top[rowId].set_xticklabels([str(int(constants.allFalsePositiveCosts[rowId]))])
             axes_top[rowId].spines['top'].set_visible(False)
@@ -197,7 +197,7 @@ elif COST_TYPE == "asymmetricCost":
     ax_down.spines['right'].set_visible(False)
     
     # plt.suptitle(constants.mapDataToLabel(dataName) + ", " + "false negative cost = " + str(int(constants.FN_TO_FP_RATIO)) + r" $\cdot$ " + "false positive costs")
-    plt.suptitle(constants.mapDataToLabel(dataName) + ", " + "assymetric cost setting")
+    plt.suptitle(commonVisualizationDefinitions.mapDataToLabel(dataName) + ", " + "assymetric cost setting")
     plt.legend(handles=allMethodHandles)
     # plt.show()
     
@@ -293,7 +293,7 @@ elif COST_TYPE == "recall":
     methodNameId = 0  # assume that the first method is the proposed method !
     allTotalCosts, allFeatureCosts, allMisClassificationCosts, allAccuracies, allAUC, allRecall, allFDR, allOperationCosts, allRecall_atExactRecall, allFDR_atExactRecall, allOperationCosts_atExactRecall = experimentHelper.ResultsRecorder.readResults(dataName + "_" + allMethodNames[methodNameId] + "_" + str(targetRecall) + COST_TYPE)
     x_ids = numpy.arange(len(constants.allFalsePositiveCosts))
-    ax_middle.errorbar(x = x_ids, y = allRecall[:,1], yerr = allRecall[:,2], color = COLOR_CYCLE[methodNameId], linestyle=commonVisualizationDefinitions.ALL_LINESTYLES[methodNameId], label = constants.mapMethodToLabel(allMethodNames[methodNameId]), marker = commonVisualizationDefinitions.ALL_MARKERS[methodNameId])
+    ax_middle.errorbar(x = x_ids, y = allRecall[:,1], yerr = allRecall[:,2], color = COLOR_CYCLE[methodNameId], linestyle=commonVisualizationDefinitions.ALL_LINESTYLES[methodNameId], label = commonVisualizationDefinitions.mapMethodToLabel(allMethodNames[methodNameId]), marker = commonVisualizationDefinitions.ALL_MARKERS[methodNameId])
     ax_middle.xaxis.set_ticks(x_ids) 
     ax_middle.xaxis.set_ticklabels(numpy.asarray(constants.allFalsePositiveCosts, dtype = numpy.int)) 
     ax_middle.set_ylim([0.93, 1.001])
@@ -309,7 +309,7 @@ elif COST_TYPE == "recall":
         topStds = allTopStds[methodNameId]
         
         for rowId in range(len(constants.allFalsePositiveCosts)):
-            methodHandleBar = axes_top[rowId].bar([xMiddlePosition + methodNameId * barWidth], [topValues[rowId]], yerr = [topStds[rowId]], width=barWidth, color = COLOR_CYCLE[methodNameId], label=constants.mapMethodToLabel(allMethodNames[methodNameId]), alpha=transparency, ecolor='black', capsize=2)
+            methodHandleBar = axes_top[rowId].bar([xMiddlePosition + methodNameId * barWidth], [topValues[rowId]], yerr = [topStds[rowId]], width=barWidth, color = COLOR_CYCLE[methodNameId], label=commonVisualizationDefinitions.mapMethodToLabel(allMethodNames[methodNameId]), alpha=transparency, ecolor='black', capsize=2)
             axes_top[rowId].set_xticks([xMiddlePosition + (len(allMethodNames) * barWidth / 2.0) - (barWidth / 2.0)])
             axes_top[rowId].set_xticklabels([str(int(constants.allFalsePositiveCosts[rowId]))])
             axes_top[rowId].spines['top'].set_visible(False)
@@ -382,7 +382,7 @@ elif COST_TYPE == "recall":
 
 
         if not (dataName == "heartDiseaseWithMissing_5foldCV" and allMethodNames[methodNameId].startswith("getOptimalSequence_fullModel")):
-            methodHandleGraph = ax_down.errorbar(x = allxValues[methodNameId], y = allyValues[methodNameId], xerr=allxStds[methodNameId], yerr=allyStds[methodNameId], color = COLOR_CYCLE[methodNameId], linestyle=commonVisualizationDefinitions.ALL_LINESTYLES[methodNameId], label = constants.mapMethodToLabel(allMethodNames[methodNameId]), marker = commonVisualizationDefinitions.ALL_MARKERS[methodNameId])
+            methodHandleGraph = ax_down.errorbar(x = allxValues[methodNameId], y = allyValues[methodNameId], xerr=allxStds[methodNameId], yerr=allyStds[methodNameId], color = COLOR_CYCLE[methodNameId], linestyle=commonVisualizationDefinitions.ALL_LINESTYLES[methodNameId], label = commonVisualizationDefinitions.mapMethodToLabel(allMethodNames[methodNameId]), marker = commonVisualizationDefinitions.ALL_MARKERS[methodNameId])
         
         if not (dataName == "heartDiseaseWithMissing_5foldCV"):
             allMethodHandles.append(methodHandleGraph)
@@ -400,7 +400,7 @@ elif COST_TYPE == "recall":
     ax_middle.spines['top'].set_visible(False)
     ax_middle.spines['right'].set_visible(False)
     
-    plt.suptitle(constants.mapDataToLabel(dataName) + ", " + r"recall $\geq$ " + str(targetRecall))
+    plt.suptitle(commonVisualizationDefinitions.mapDataToLabel(dataName) + ", " + r"recall $\geq$ " + str(targetRecall))
     plt.legend(handles=allMethodHandles)
     # plt.show()
     

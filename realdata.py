@@ -8,11 +8,12 @@ import constants
 import physioNet
 import experimentHelper
 
-BASE_FOLDER = "/export/home/s-andrade/newStart/dynamicCovariateBaselines/datasets/"
+
+
 
 # loads the crab data as used in "Gaussian processes for Bayesian classification via hybrid Monte Carlo"
 def loadCrabData():
-    filename = BASE_FOLDER + "crabs.csv"
+    filename = constants.REAL_DATA_FOLDER + "crabs.csv"
     
     numberOfVariables = 5
     
@@ -62,7 +63,7 @@ def prepareCrabData():
 
 
 def loadPimaDiabetesData():
-    filename = BASE_FOLDER +  "diabetes.csv"
+    filename = constants.REAL_DATA_FOLDER +  "diabetes.csv"
 
     with open(filename, "r") as f:
         for line in f:
@@ -98,7 +99,7 @@ def loadPimaDiabetesData():
     
 
 def loadMiniBooNEData():
-    filename = BASE_FOLDER + "MiniBooNE_PID.txt"
+    filename = constants.REAL_DATA_FOLDER + "MiniBooNE_PID.txt"
     
     labels = None
     data = None
@@ -136,7 +137,7 @@ def loadMiniBooNEData():
 # from https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html
 # explanation in https://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(original)
 def loadWisconsinBreastCancer():
-    filename = BASE_FOLDER + "breast-cancer"
+    filename = constants.REAL_DATA_FOLDER + "breast-cancer"
 
     dataWithLabels = sklearn.datasets.load_svmlight_file(filename)
     

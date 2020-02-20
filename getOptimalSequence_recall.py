@@ -67,15 +67,15 @@ startTimeTotal = time.time()
 definedFeatureCosts = realdata.getFeaturesCosts(dataName)
 
 
-MODEL_FOLDERNAME =  "/export/home/s-andrade/newStart/eclipseWorkspaceDynamic/DynamicCovariateSelection/models/"
+
 
 trainedModelsFilenameNonLinearL1 = dataName + "_" + classificationModelName + "_nonLinearL1"
 
-with open(MODEL_FOLDERNAME + trainedModelsFilenameNonLinearL1 + "_models", "rb") as f:
+with open(constants.MODEL_FOLDERNAME + trainedModelsFilenameNonLinearL1 + "_models", "rb") as f:
     allPredictionModelsNonLinearL1_allFolds = pickle.load(f)
-with open(MODEL_FOLDERNAME + trainedModelsFilenameNonLinearL1 + "_probs", "rb") as f:
+with open(constants.MODEL_FOLDERNAME + trainedModelsFilenameNonLinearL1 + "_probs", "rb") as f:
     allTrainingTrueProbsAllModelsNonLinearL1_allFolds = pickle.load(f)
-with open(MODEL_FOLDERNAME + trainedModelsFilenameNonLinearL1 + "_features", "rb") as f:
+with open(constants.MODEL_FOLDERNAME + trainedModelsFilenameNonLinearL1 + "_features", "rb") as f:
     allFeatureArraysInOrderNonLinearL1_allFolds = pickle.load(f)
 
 

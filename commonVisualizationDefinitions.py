@@ -26,4 +26,35 @@ def getAllMethodNames(dataName, FEATURE_SELECTION_METHOD, classificationModelNam
         allMethodNames.append(methodName)
     
     return allMethodNames
+
+
+def mapMethodToLabel(nameSpecifier):
+    label = ""
+    if nameSpecifier.startswith("getOptimalSequence_dynamic_BR_noUnlabeledData_"):
+        label = "AdaCOS"
+    elif nameSpecifier.startswith("getOptimalSequence_static_"):
+        label = "COS"
+    elif nameSpecifier.startswith("getOptimalSequence_fullModel"):
+        label = "Full Model"
+    elif nameSpecifier.startswith("AdaptGBRT_"):
+        label = "AdaptGbrt"
+    else:
+        return nameSpecifier
+
+        
+    return label
+
+
+def mapDataToLabel(nameSpecifier):
+    if nameSpecifier == "breastcancer_5foldCV":
+        return "Breast Cancer"
+    elif nameSpecifier == "pima_5foldCV":
+        return "Diabetes"
+    elif nameSpecifier == "heartDiseaseWithMissing_5foldCV":
+        return "Heart Disease"
+    elif nameSpecifier == "pyhsioNetWithMissing_5foldCV":
+        return "PhysioNet"
+    else:
+        assert(False)
+        
         

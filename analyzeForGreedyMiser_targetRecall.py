@@ -1,5 +1,5 @@
 import numpy
-import experimentSetting
+import experimentSettingBaselines
 import experimentHelper
 import evaluation
 import scipy.io
@@ -50,13 +50,13 @@ for falsePositiveCost in constants.allFalsePositiveCosts:
     
     
     # save best settings from validation data
-    outputFilename = experimentSetting.MATLAB_FOLDER_BEST_SETTINGS_GREEDY_MISER + dataName + "_" + str(int(falsePositiveCost)) + "_allBestSettings_" + str(targetRecall) + "targetRecall" 
+    outputFilename = experimentSettingBaselines.MATLAB_FOLDER_BEST_SETTINGS_GREEDY_MISER + dataName + "_" + str(int(falsePositiveCost)) + "_allBestSettings_" + str(targetRecall) + "targetRecall" 
     matlabDict = {}
     matlabDict["allBestSettings"] = numpy.asmatrix(allBestSettings, dtype = numpy.int)
     scipy.io.savemat(outputFilename, matlabDict)
     
     
-    if os.path.isfile(experimentSetting.MATLAB_FOLDER_RESULTS_GREEDY_MISER + dataName + "_" + str(int(falsePositiveCost)) + "_forFinalTrainingAndTesting_" + str(4) + "_allResults_" + str(targetRecall) + "targetRecall"  + ".mat"):
+    if os.path.isfile(experimentSettingBaselines.MATLAB_FOLDER_RESULTS_GREEDY_MISER + dataName + "_" + str(int(falsePositiveCost)) + "_forFinalTrainingAndTesting_" + str(4) + "_allResults_" + str(targetRecall) + "targetRecall"  + ".mat"):
     
         print("*************************** AFTER FINAL TRAINING *******************************************")
         
@@ -76,7 +76,7 @@ for falsePositiveCost in constants.allFalsePositiveCosts:
     
         for testFoldId in range(NUMBER_OF_FOLDS):
          
-            allResultsInMatlab = scipy.io.loadmat(experimentSetting.MATLAB_FOLDER_RESULTS_GREEDY_MISER + dataName + "_" + str(int(falsePositiveCost)) + "_forFinalTrainingAndTesting_" + str(testFoldId) + "_allResults_" + str(targetRecall) + "targetRecall" )
+            allResultsInMatlab = scipy.io.loadmat(experimentSettingBaselines.MATLAB_FOLDER_RESULTS_GREEDY_MISER + dataName + "_" + str(int(falsePositiveCost)) + "_forFinalTrainingAndTesting_" + str(testFoldId) + "_allResults_" + str(targetRecall) + "targetRecall" )
             avgFeatureCosts_allTrees = (allResultsInMatlab['allTotalCost'].transpose())[0]
             scores_allTrees = allResultsInMatlab['allScores']
             
