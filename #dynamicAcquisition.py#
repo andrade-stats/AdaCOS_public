@@ -302,7 +302,7 @@ def getExpectedFutureBayesRiskEstimate(misclassificationCosts, observedCovariate
     
     fixedContribution = getFixedContribution(observedCovariates, predictionModel)
     
-    zStar = numpy.log((misclassificationCosts[0,1] - misclassificationCosts[0,0]) / (misclassificationCosts[1,0] - misclassificationCosts[1,1])) - fixedContribution
+    zStar = numpy.log(misclassificationCosts[0,1] / misclassificationCosts[1,0]) - fixedContribution
     sigma = numpy.sqrt(variance)
     
     class1ExpectationEst = misclassificationCosts[1,1] * oneDimIntegral.getIntegralEstimate(mean + fixedContribution, sigma, zStar + fixedContribution, float("inf"))
@@ -315,6 +315,8 @@ def getExpectedFutureBayesRiskEstimate(misclassificationCosts, observedCovariate
     class2ExpectationEst -= misclassificationCosts[0,1] * oneDimIntegral.getIntegralEstimate(mean + fixedContribution, sigma, zStar + fixedContribution, float("inf"))
     
     return class1ExpectationEst + class2ExpectationEst
+
+
 
 
 # checked for applicability to target recall
